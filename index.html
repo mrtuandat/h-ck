@@ -2,19 +2,27 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Mua trà sữa cho t nhóoooo 🧋</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mua trà sữa nhóoooo 🧋</title>
   <style>
     body {
       font-family: 'Comic Sans MS', cursive;
-      background-color: #ffe6f0;
-      text-align: center;
-      padding-top: 100px;
-      color: #ff66b2;
+      background: linear-gradient(135deg, #ffe6f0, #ffe0ff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     h1 {
-      font-size: 30px;
-      margin-bottom: 50px;
+      text-align: center;
+      font-size: 6vw;
+      color: #ff66b2;
+      margin-bottom: 40px;
       animation: bounce 1s infinite alternate;
     }
 
@@ -23,14 +31,15 @@
       100% { transform: translateY(-10px); }
     }
 
-    button {
-      font-size: 20px;
-      padding: 15px 30px;
-      margin: 20px;
+    .btn {
+      font-size: 5vw;
+      padding: 12px 24px;
+      margin: 15px;
       border: none;
-      border-radius: 20px;
+      border-radius: 30px;
       cursor: pointer;
       transition: 0.3s ease;
+      min-width: 120px;
     }
 
     #yesBtn {
@@ -46,30 +55,23 @@
 
     #noBtn:hover {
       position: absolute;
-      top: calc(50vh * Math.random());
-      left: calc(50vw * Math.random());
     }
 
-    .heart {
-      font-size: 40px;
-      color: red;
-      animation: heartbeat 1s infinite;
-    }
-
-    @keyframes heartbeat {
-      0%, 100% {
-        transform: scale(1);
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 32px;
       }
-      50% {
-        transform: scale(1.2);
+
+      .btn {
+        font-size: 20px;
       }
     }
   </style>
 </head>
 <body>
   <h1>Mai mày mua chà sữa cho taoo nhaaa 🧋💖</h1>
-  <button id="yesBtn">Cóaaa 💕</button>
-  <button id="noBtn">Khônggg 😤</button>
+  <button id="yesBtn" class="btn">Cóaaa 💕</button>
+  <button id="noBtn" class="btn">Khônggg 😤</button>
 
   <script>
     const yesBtn = document.getElementById("yesBtn");
@@ -79,13 +81,21 @@
       alert("Cẻm mơn bn iuuu nhìuu =)) 🥰🧋");
     });
 
-    // Troll nút Không - chạy lung tung
     noBtn.addEventListener("mouseover", () => {
       const maxX = window.innerWidth - noBtn.clientWidth;
       const maxY = window.innerHeight - noBtn.clientHeight;
       const randomX = Math.random() * maxX;
       const randomY = Math.random() * maxY;
-      noBtn.style.position = "absolute";
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
+    });
+
+    // Fix khi màn nhỏ, nhấn vẫn troll
+    noBtn.addEventListener("touchstart", () => {
+      const maxX = window.innerWidth - noBtn.clientWidth;
+      const maxY = window.innerHeight - noBtn.clientHeight;
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
       noBtn.style.left = `${randomX}px`;
       noBtn.style.top = `${randomY}px`;
     });
